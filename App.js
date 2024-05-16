@@ -4,12 +4,41 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import { useEffect, useState } from 'react';
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 // TODO: Navigation Container
 
 export default function App() {
+
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  useEffect(() => {
+    // var currentUser = auth.currentUser
+    // console.log("Current User - " + currentUser?.email ?? "none")
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true)
+        console.log("User logged in..." + user.email)
+      } else {
+        setLoggedIn(false)
+        console.log("No user logged in :(")
+      }
+    })
+    return unsubscribe
+    
+  }, [])
+
   return (
-    <ProfileScreen />
+    <>
+    {loggedIn ? (
+      <ProfileScreen />
+    ): (
+      <LoginScreen />
+    )}
+    </>
   );
 }
 
