@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { useEffect, useState } from 'react';
 import { auth } from './firebase';
@@ -31,14 +32,27 @@ export default function App() {
     
   }, [])
 
+  const Stack = createNativeStackNavigator();
+
   return (
     <>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="register" component={RegisterScreen} />
+        <Stack.Screen name="profile" component={ProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+
     {loggedIn ? (
       <ProfileScreen />
     ): (
       <LoginScreen />
     )}
     </>
+
+    // STACK NAVIGATION
+    
   );
 }
 

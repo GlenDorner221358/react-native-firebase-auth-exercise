@@ -1,10 +1,23 @@
 import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native'
+import { signOut } from 'firebase/auth'
 import React from 'react'
+import { auth } from '../firebase'
 
 const ProfileScreen = () => {
 
     // TODO: handle logout
-    const handleLogout = () => {}
+    const handleLogout = () => {
+        // sign out
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            console.log("User has been signed out")
+        }).catch((error) => {
+            // An error happened.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("The following error occurred: " + errorCode + ": " + errorMessage)
+        });
+    }
 
     return (
         <SafeAreaView>
