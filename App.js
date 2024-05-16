@@ -35,23 +35,18 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="register" component={RegisterScreen} />
-        <Stack.Screen name="profile" component={ProfileScreen} />
+        {loggedIn ? (
+          <Stack.Screen name="profile" component={ProfileScreen} />
+        ) : (
+          <>
+            <Stack.Screen name="login" component={LoginScreen} />
+            <Stack.Screen name="register" component={RegisterScreen} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
-
-    {loggedIn ? (
-      <ProfileScreen />
-    ): (
-      <LoginScreen />
-    )}
-    </>
-
-    // STACK NAVIGATION
     
   );
 }
